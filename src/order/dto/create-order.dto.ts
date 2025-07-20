@@ -1,0 +1,46 @@
+import { IsString, IsBoolean, IsOptional, IsArray, IsObject, IsNumber, ValidateNested } from 'class-validator';
+
+export class CreateOrderDto {
+  @IsString() id: string;
+  @IsString() user_id: string;
+  @IsBoolean() completed: boolean;
+  @IsBoolean() cancelled: boolean;
+  @IsBoolean() kitchen_cancelled: boolean;
+  @IsBoolean() kitchen_accepted: boolean;
+  @IsBoolean() kitchen_dispatched: boolean;
+  @IsOptional() @IsString() kitchen_dispatched_time?: string;
+  @IsOptional() @IsString() completed_time?: string;
+  @IsOptional() @IsString() rider_id?: string;
+  @IsBoolean() kitchen_prepared: boolean;
+  @IsBoolean() rider_assigned: boolean;
+  @IsBoolean() paid: boolean;
+  @IsString() order_code: string;
+  @IsOptional() order_change?: number;
+  @IsString() calculated_order_id: string;
+  @IsString() created_at: string;
+  @IsString() updated_at: string;
+  @IsOptional() @IsString() kitchen_verified_time?: string;
+  @IsOptional() @IsString() kitchen_completed_time?: string;
+  @IsBoolean() shop_accepted: boolean;
+  @IsBoolean() shop_prepared: boolean;
+  @IsNumber() no_of_mealbags_delivered: number;
+  @IsNumber() no_of_drinks_delivered: number;
+  @IsOptional() @IsString() rider_started_time?: string;
+  @IsBoolean() rider_started: boolean;
+  @IsOptional() @IsString() rider_arrived_time?: string;
+  @IsBoolean() rider_arrived: boolean;
+  @IsBoolean() is_failed_trip: boolean;
+  @IsObject() failed_trip_details: object;
+  @IsString() box_number: string;
+  @IsOptional() @IsString() shelf_id?: string;
+  @IsBoolean() scheduled: boolean;
+  @IsOptional() @IsString() confirmed_by_id?: string;
+  @IsOptional() @IsString() completed_by_id?: string;
+  @IsOptional() @IsString() scheduled_delivery_date?: string;
+  @IsOptional() @IsString() scheduled_delivery_time?: string;
+  @IsBoolean() is_hidden: boolean;
+  @IsOptional() @IsArray() logs?: any[];
+  @IsOptional() @IsArray() order_total_amount_history?: any[];
+  @IsOptional() @IsObject() calculated_order?: any;
+  @IsOptional() @IsObject() order_type?: any;
+} 

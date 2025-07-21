@@ -6,6 +6,13 @@
    npm install
    
 2. Set up your `.env` file with DB and RabbitMQ credentials.
+RABBITMQ_URL=amqp://guest:guest@localhost:5672/
+DB_TYPE=postgres
+DB_PORT=5432
+DB_HOST=
+DB_USERNAME=
+DB_PASSWORD=
+DB_NAME=
 
 3. Run migrations:
  
@@ -19,6 +26,13 @@
 
 Documentation of endpoints 
 
+
+task 1 requirement 3 endpoint to get orders with related data
+GET   http://localhost:3000/orders/get-orders
+
+
+task 1 requirement 4 endpoint to get most bought meal
+http://localhost:3000/orders/most-bought-meal
 
 task 1 requirement 5
 
@@ -151,12 +165,7 @@ POST  http://localhost:3000/orders/create   endpoint to create order and test ra
   }
 }
 
-task 1 requirement 3 endpoint to get orders with related data
-GET   http://localhost:3000/orders/get-orders
 
-
-task 1 requirement 4 endpoint to get most bought meal
-http://localhost:3000/orders/most-bought-meal
 
 
 
@@ -171,8 +180,36 @@ PUT   http://localhost:3000/riders/me/location
 }
 
 
+ Task 2 Requirement 2: Real-time Dispatch Dashboard
+- **WebSocket Namespace:** `/dispatch`
+- **Events:**
+  - `rider-location-update`: Sent to all dispatch clients when a rider updates their location.
+  - `order-assignment`: Sent to a specific rider when they are assigned a new order.
+- **How to use:**
+  - Dispatch/admin clients connect to the `/dispatch` namespace to receive real-time updates.
+  - Riders can register for targeted notifications using the `register-rider` event.
 
+---
 
+### Task 2 Requirement 3: Geospatial Proximity Search
+- **Description:**
+  When an order is created, the system finds all available riders within a 5km radius of the restaurant's location (from the order's `calculated_order`).
+  - Uses the Haversine formula (via the `geolib` library) for distance calculation.
+  - For large scale, see the Scalability Considerations section below.
+
+---
+
+### Task 2 Requirement 4: Targeted Rider Notification
+- **Description:**
+  For each nearby, available rider found in the proximity search, the system sends a targeted WebSocket message (`order-assignment` event) containing the new order details (order_code, restaurant name, pickup address).
+  - Only the relevant riders receive the notification, not a general broadcast.
+
+---
+
+### Real-time Features Summary
+- **WebSocket Gateway:** `/dispatch` namespace for real-time updates.
+- **Broadcast:** Rider location updates are sent to all dispatch clients.
+- **Targeted:** Order assignments are sent only to relevant riders.
 
 
 ## Scalability Considerations for Rider Proximity Search
